@@ -1,0 +1,12 @@
+
+nao_max: 26
+graph_data_path: "/Users/joshibhumika/Downloads/GaAs 12/graph_data.npz"
+hamiltonian_path: "/Users/joshibhumika/Downloads/GaAs 12/prediction_hamiltonian.npy"
+nk: 100          # the number of k points
+save_dir: "/Users/joshibhumika/Downloads/GaAs 12" # The directory to save the results
+strcture_name: "system"  # The name of each cif file saved is strcture_name_idx.cif after band calculation
+soc_switch: False
+spin_colinear: False
+auto_mode: False # If the auto_mode is used, users can omit providing k_path and label, as the program will automatically generate them based on the crystal symmetry.
+k_path: [[0.5, 0.25, 0.75], [0.5, 0.5, 0.5], [0.0, 0.0, 0.0], [0.5, 0.0, 0.5], [0.5, 0.25, 0.75],[0.375,0.375,0.75]]
+label: ['W', 'L', 'Γ', 'X', 'W', 'K'] # The label for each k points in K_path
