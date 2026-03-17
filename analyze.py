@@ -2,7 +2,7 @@ import numpy as np
 from scipy.linalg import eigh
 
 
-# 1. Loading graph data -------------------------------------------------------
+# 1. Loading graph data 
 
 
 def load_graph(path="graph_data.npz"):
@@ -11,7 +11,7 @@ def load_graph(path="graph_data.npz"):
     return data
 
 
-# 2. Build 3D k-mesh ----------------------------------------------------------
+# 2. Build 3D k-mesh 
 
 
 def build_kmesh(Nk1=10, Nk2=10, Nk3=10):
@@ -21,7 +21,7 @@ def build_kmesh(Nk1=10, Nk2=10, Nk3=10):
     return k1, k2, k3
 
 
-# 3. Solve H(k) ψ = E S(k) ψ and return S(k) ---------------------------------
+# 3. Solve H(k) ψ = E S(k) ψ and return S(k) 
 
 
 def solve_eigenvectors_and_S_at_k(data, kfrac, eps=1e-8):
@@ -62,7 +62,7 @@ def solve_eigenvectors_and_S_at_k(data, kfrac, eps=1e-8):
         HK[u, v] += phase[e] * Hoff[e]
         SK[u, v] += phase[e] * Soff[e]
 
-    # reshape to (norb, norb)
+    # reshaping to (norb, norb)
     HK = np.swapaxes(HK, 1, 2).reshape(norb, norb)
     SK = np.swapaxes(SK, 1, 2).reshape(norb, norb)
 
@@ -74,7 +74,7 @@ def solve_eigenvectors_and_S_at_k(data, kfrac, eps=1e-8):
     return evals, psi, SK
 
 
-# 4. Fukui F12 and Chern per band on one kz slice (non-orthogonal) -----------
+# 4. Fukui F12 and Chern per band on one kz slice (non-orthogonal) 
 
 
 def fukui_F12_and_chern_nonorth(psi_slice, S_slice):
@@ -122,8 +122,7 @@ def fukui_F12_and_chern_nonorth(psi_slice, S_slice):
     return F12, chern
 
 
-# MAIN: 3D Fukui Chern per band vs kz ----------------------------------------
-
+# MAIN: 3D Fukui Chern per band vs kz 
 
 if __name__ == "__main__":
     data = load_graph("graph_data.npz")
@@ -131,13 +130,12 @@ if __name__ == "__main__":
     Nk1 = Nk2 = Nk3 = 10
     k1, k2, k3 = build_kmesh(Nk1, Nk2, Nk3)
 
-    # determine norb once
     natoms = data.pos.shape[0]
     nao = int(np.sqrt(data.Hon.shape[1]))
     norb = natoms * nao
 
-    chern_all = []   # list of (nbands,) per kz
-    F12_all = []     # list of (Nk1,Nk2,nbands) per kz
+    chern_all = []   # (Nk3, nbands)
+    F12_all = []     # (Nk3, Nk1, Nk2, nbands)
 
     for kz in k3:
         psi_slice = np.zeros((Nk1, Nk2, norb, norb), dtype=np.complex128)
@@ -157,10 +155,10 @@ if __name__ == "__main__":
 
         print(f"kz={kz:.3f}, Chern per band (rounded):", np.rint(chern_kz).astype(int))
 
-    chern_all = np.array(chern_all)   # (Nk3, nbands)
+    chern_all = np.array(chern_all)
     np.savetxt("chern_slices_per_band.txt", chern_all, fmt="%.6f")
 
-    F12_all = np.array(F12_all)       # (Nk3, Nk1, Nk2, nbands)
+    F12_all = np.array(F12_all)
     np.save("F12_all_kz.npy", F12_all)
 
     print("Saved chern_slices_per_band.txt and F12_all_kz.npy")

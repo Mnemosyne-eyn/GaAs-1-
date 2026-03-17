@@ -3,7 +3,7 @@ import torch
 import math
 from utils import basis_def_26  # and num_valence_* from your project
 
-# ================== USER SETTINGS ==================
+# 
 graph_data_path  = "/Users/joshibhumika/Downloads/GaAs 12/graph_data.npz"
 hamiltonian_path = "/Users/joshibhumika/Downloads/GaAs 12/prediction_hamiltonian.npy"
 output_dir       = "/Users/joshibhumika/Downloads/GaAs 12/"
@@ -11,7 +11,7 @@ nao_max          = 26
 Nk               = 10
 eps_reg          = 1e-6
 Ham_type         = "openmx"   # or "abacus"
-# ===================================================
+# 
 
 
 def load_graph(path):
