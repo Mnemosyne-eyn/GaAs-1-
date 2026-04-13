@@ -342,9 +342,37 @@ def main():
     np.savetxt(output_dir + "chern_nonabalian_final.txt",
                np.array([nonabl_consensus]), fmt="%d")
  
+   
+    # Save all results to a single readable text file
+    with open(output_dir + "results_summary.txt", "w") as f:
+        f.write("=" * 60 + "\n")
+        f.write("TOPOLOGICAL CHERN NUMBER RESULTS\n")
+        f.write("=" * 60 + "\n\n")
+    
+        f.write(f"Material: GaAs\n")
+        f.write(f"Ham_type: {Ham_type}\n")
+        f.write(f"Spinful: {spinful}\n")
+        f.write(f"n_occ: {n_occ}\n")
+        f.write(f"k-mesh: {Nk} x {Nk} x {Nk}\n\n")
+    
+        f.write("-" * 60 + "\n")
+        f.write("Non-Abelian (occupied subspace) Chern per kz slice:\n")
+        f.write("-" * 60 + "\n")
+        for iz, chern in enumerate(chern_occ_all):
+            f.write(f"  kz slice {iz:2d} (kz={iz/Nk:.3f}): {round(chern, 4)}\n")
+    
+        f.write("\n" + "-" * 60 + "\n")
+        f.write("Abelian per-band Chern per kz slice:\n")
+        f.write("-" * 60 + "\n")
+        for iz, chern in enumerate(chern_all_abel):
+            f.write(f"  kz slice {iz:2d} (kz={iz/Nk:.3f}): {np.rint(chern).astype(int)}\n")
+    
+        f.write("\n" + "=" * 60 + "\n")
+        f.write(f"FINAL: Non-Abelian total Chern number = {nonabl_consensus}\n")
+        f.write("=" * 60 + "\n")
+
+    print("Results saved to results_summary.txt")
     print("\nDone.")
- 
- 
 if __name__ == "__main__":
     main()
  
