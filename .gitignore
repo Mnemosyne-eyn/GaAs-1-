@@ -1,0 +1,23 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Data files (large, don't need in Git)
+*.npy
+*.npz
+
+# Output files
+*.txt
+
+# Virtual environment
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Mac
+.DS_Store
